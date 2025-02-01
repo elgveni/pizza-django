@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag and Drop Game</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px;
+        }
+        .dropzone {
+            width: 150px;
+            height: 150px;
+            margin: 20px;
+            background-color: #f0f0f0;
+            border: 2px dashed #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            text-align: center;
+        }
+        .draggable {
+            width: 120px;
+            height: 120px;
+            background-color: #b3d9ff;
+            margin: 10px;
+            padding: 10px;
+            cursor: grab;
+            text-align: center;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Drag and Drop Game</h1>
+
+    <div class="container">
+        <div id="block1" class="draggable" draggable="true">Вы берете что-то ценное (уроки, знания, идеи) из прошлого опыта и несете с собой в будущее</div>
+        <div id="block2" class="draggable" draggable="true">Term 2</div>
+        <div id="block3" class="draggable" draggable="true">Term 3</div>
+        <div id="block4" class="draggable" draggable="true">Term 4</div>
+    </div>
+
+    <div class="container">
+        <div id="drop1" class="dropzone">Bring up</div>
+        <div id="drop2" class="dropzone">Bring along</div>
+        <div id="drop3" class="dropzone">Bring around</div>
+        <div id="drop4" class="dropzone">Bring away</div>
+        <div id="drop5" class="dropzone">Bring back</div>
+        <div id="drop6" class="dropzone">Bring into</div>
+        <div id="drop7" class="dropzone">Bring on</div>
+        <div id="drop8" class="dropzone">Bring out</div>
+        <div id="drop9" class="dropzone">Bring over</div>
+        <div id="drop10" class="dropzone">Bring through</div>
+    </div>
+
+    <script>
+        // Добавляем обработчики для перетаскиваемых блоков
+        const draggables = document.querySelectorAll('.draggable');
+        const dropzones = document.querySelectorAll('.dropzone');
+
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', dragStart);
+            draggable.addEventListener('dragend', dragEnd);
+        });
+
+        dropzones.forEach(dropzone => {
+            dropzone.addEventListener('dragover', dragOver);
+            dropzone.addEventListener('drop', drop);
+        });
+
+        function dragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.id);
+            setTimeout(() => {
+                e.target.style.visibility = 'hidden';
+            }, 0);
+        }
+
+        function dragEnd(e) {
+            e.target.style.visibility = 'visible';
+        }
+
+        function dragOver(e) {
+            e.preventDefault();  // Нужно для того, чтобы drop сработал
+        }
+
+        function drop(e) {
+            e.preventDefault();
+            const draggableId = e.dataTransfer.getData('text');
+            const draggableElement = document.getElementById(draggableId);
+            e.target.appendChild(draggableElement);
+        }
+    </script>
+</body>
+</html>

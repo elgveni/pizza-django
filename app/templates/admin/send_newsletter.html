@@ -1,0 +1,28 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+  <h2>Send newsletter</h2>
+
+  <p>You send the letter to next users:</p>
+  <ul>
+    {% for recipient in recipients %}
+      <li>{{ recipient }}</li>
+    {% endfor %}
+  </ul>
+
+  <form method="post" action="{% url 'send_newsletter' %}">
+    {% csrf_token %}
+
+    <label for="template_id">Choose template of the letter:</label>
+    <select name="template_id" id="template_id">
+      {% for template in templates %}
+        <option value="{{ template.id }}">{{ template.name }}</option>
+      {% endfor %}
+    </select>
+
+    <input type="hidden" name="selected_ids" value="{{ selected_ids }}">
+
+    <button type="submit" name="apply" class="button">Submit</button>
+    <a href="{% url 'admin:app_newsletter_changelist' %}" class="button">Cancel</a>
+  </form>
+{% endblock %}
